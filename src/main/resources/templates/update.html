@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update user</title>
+  <style>
+    td {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      padding: 10px 5px;
+      border-style: solid;
+      border-width: 1px;
+      overflow: hidden;
+      word-break: normal;
+      border-color: #ccc;
+      color: #333;
+      background-color: ivory;
+    }
+    .buttonEdit {
+      background: gold;
+      position: relative;
+      left: 50%;
+      transform: translate(-50%, 0);
+    }
+    div {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      color: #fd3434;
+    }
+  </style>
+</head>
+<body>
+<h1>Update user</h1>
+<form action="#" th:method="PATCH" th:action="@{/admin/update}" th:object="${user}">
+  <table>
+    <tr>
+      <td>
+        <label for="id">id</label>
+        <input readonly type="number" th:field="*{id}" id="id" placeholder="id">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="name">Enter name</label>
+        <input type="text" th:field="*{name}" id="name" required/>
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name error</div>
+      </td>
+      <td>
+        <label for="lastName">Enter lastName</label>
+        <input type="text" th:field="*{lastName}" id="lastName"/>
+        <div th:if="${#fields.hasErrors('surname')}" th:errors="*{lastName}">lastName error</div>
+      </td>
+      <td>
+        <label for="email">Enter email</label>
+        <input type="text" th:field="*{email}" id="email" required/>
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email error</div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="submit" class="buttonEdit" value="Update user"/>
+      </td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>
