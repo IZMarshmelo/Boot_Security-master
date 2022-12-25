@@ -17,11 +17,10 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import javax.validation.Valid;
 
 
+
 @Controller
 @RequestMapping("/")
 public class UserController {
-
-
 
     private final UserService userService;
     @Autowired

@@ -1,9 +1,6 @@
 package ru.kata.spring.boot_security.demo.model;
 
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,13 +13,12 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Pattern;
 
-
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "t_user")
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,44 +39,16 @@ public class User implements UserDetails {
     @Size(min = 2)
     private String username;
 
-
     @Size(min = 2, message = "Не меньше 6 знаков")
     private String password;
     @Transient
     private String passwordConfirm;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    private Set<Role> roles = new HashSet<>();
 
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
-    }
-
-    @Override
     public String getUsername() {
         return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 
     public void setUsername(String username) {
@@ -156,6 +124,9 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setRoles(String roleUser) {
     }
 }
 

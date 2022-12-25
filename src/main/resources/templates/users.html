@@ -44,7 +44,7 @@
     </tr>
     <tr th:each="users : ${users}">
 
-        <td><a th:href="@{'users/' + ${users.id}}" th:utext="${users.id}">id</a></td>
+        <td><a th:href="@{'admin/users/' + ${users.id}}" th:utext="${users.id}">id</a></td>
         <td th:utext="${users.name}">Name</td>
         <td th:utext="${users.lastName}">Lastname</td>
         <td th:utext="${users.email}">Email</td>

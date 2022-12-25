@@ -4,7 +4,7 @@ package ru.kata.spring.boot_security.demo.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import ru.kata.spring.boot_security.demo.model.Role;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
@@ -12,7 +12,6 @@ import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,15 +66,11 @@ public class UserDaoHibernate implements UserDao {
     public List<User> allUsers() {
         return userRepository.findAll();
     }
+
     @Override
+    @Transactional
     public boolean saveUserRep(User user) {
-        User userFromDB = userRepository.findByUsername(user.getUsername());
-
-        if (userFromDB != null) {
-            return false;
-        }
-
-        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+        user.setRoles("ROLE_USER");
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return true;
